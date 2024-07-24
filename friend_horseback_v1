@@ -81,4 +81,4 @@ def encounter(rider):
     answer = int(input("Enter your answer: "))
     if answer == missing_planks:
       print("Great job! You can safely cross the bridge with the planks you have.")
-      # Add reward for solving the problem (e.g., stat boost)
+      # Add reward for
