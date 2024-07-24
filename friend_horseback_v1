@@ -1,0 +1,84 @@
+import random
+
+# Character Classes
+class Rider:
+  def __init__(self, name, horse_name, strength, dexterity, wisdom):
+    self.name = name
+    self.horse_name = horse_name
+    self.strength = strength
+    self.dexterity = dexterity
+    self.wisdom = wisdom
+    self.inventory = []
+
+class ExplorerRider(Rider):
+  def __init__(self, name, horse_name):
+    super().__init__(name, horse_name, 12, 14, 16)
+    self.inventory.append("Trail Map")
+
+class TrickRider(Rider):
+  def __init__(self, name, horse_name):  
+    super().__init__(name, horse_name, 10, 16, 10)
+    self.inventory.append("Practice Baton")
+
+def create_character():
+  """Prompts the player to create their rider character."""
+  print("Welcome to the Horseback Heroes Club!")
+  name = input("What is your rider's name? ")
+  horse_name = input("What is your horse's name? ")
+  print("Choose your riding style:")
+  print("1. Explorer Rider (擅长探索 Shuàncháng tànsuǒ) - Great at finding new trails!")
+  print("2. Trick Rider (擅长技巧 Shuàncháng jìqiǎo) - Amazing at performing tricks!")
+  choice = input("Enter 1 or 2: ")
+  if choice == "1":
+    return ExplorerRider(name, horse_name)
+  elif choice == "2":
+    return Trick Rider(name, horse_name)
+  else:
+    print("Invalid choice. Please choose 1 or 2.")
+    return create_character()
+
+def roll_dice(num_dice, num_sides):
+  """Simulates rolling dice."""
+  total = 0
+  for _ in range(num_dice):
+    total += random.randint(1, num_sides)
+  return total
+
+def encounter(rider):
+  """Presents a random encounter during the ride."""
+  print("You're riding along the trail when...")
+  event = random.choice([
+      "You see a beautiful herd of deer grazing in the distance.",
+      "You come across a narrow bridge with missing planks.",
+      "A sudden gust of wind spooks your horse!",
+  ])
+  print(event)
+
+  if event == "You see a beautiful herd of deer grazing in the distance.":
+    print("Do you want to:")
+    print("1. Observe the deer quietly (Wisdom check)")
+    print("2. Approach them slowly (Dexterity check)")
+    choice = input("Enter 1 or 2: ")
+    if choice == "1":
+      difficulty = 15  # Adjust difficulty based on context
+      if roll_dice(1, 20) + rider.wisdom >= difficulty:
+        print("You observe the deer without disturbing them. It's a peaceful moment.")
+      else:
+        print("The deer sense your presence and flee. You missed the opportunity to admire them closely.")
+    elif choice == "2":
+      difficulty = 13
+      if roll_dice(1, 20) + rider.dexterity >= difficulty:
+        print("You approach the deer slowly and get a closer look. They are magnificent creatures!")
+      else:
+        print("Your horse makes a noise and scares the deer away. They disappear into the forest.")
+  elif event == "You come across a narrow bridge with missing planks.":
+    print("There's a bridge ahead, but some planks are missing! You need to figure out how many planks are needed to cross safely.")
+    num_planks_needed = random.randint(3, 6)  # Adjust difficulty
+    missing_planks = random.randint(1, num_planks_needed - 1)
+    available_planks = num_planks_needed - missing_planks
+    print(f"The bridge originally had {num_planks_needed} planks, but {missing_planks} are missing. You have {available_planks} planks in your inventory.")
+    print("How many more planks do you need? (Addition problem)")
+    answer = int(input("Enter your answer: "))
+    if answer == missing_planks:
+      print("Great job! You can safely cross the bridge with the planks you have.")
+      # Add reward for solving the problem (e.g., stat boost)
