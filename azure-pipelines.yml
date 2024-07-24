@@ -1,14 +1,89 @@
-# Starter pipeline
+# Configuration (adjust these values as needed)
+NUM_JUMPS = 5
+COURSE_LENGTH = 500
+SHORTCUT_REDUCTION = 20  # Meters saved per shortcut
 
-trigger:
-- master
 
-pool:
-  vmImage: ubuntu-latest
+def intro():
+  """Introduces the story and sets the scene."""
+  print(f"""Howdy there, partner! You are Maya, an 8-year-old with a love for horses and a knack for numbers. Today's the big day – the annual Horseshoe Hill Obstacle Course! You and your trusty steed, Comet, are ready to compete. But there's a rumor that the course has been changed...
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+What do you do?""")
 
-- script: |
-  displayName: 'Run a multi-line script'
+  print("1. Warm up Comet and practice some jumps (warm_up)")
+  print("2. Scout the course for any surprises (scout_course)")
+  return choice(["warm_up", "scout_course"])  # Allow user input for choice
+
+
+def choice(options):
+  """Prompts the user for a choice and validates their input."""
+  while True:
+    choice_input = input("> ").lower()
+    if choice_input in options:
+      return choice_input
+    else:
+      print("Sorry, that's not a valid choice. Try again!")
+
+
+def warm_up():
+  """Simulates a warm-up session with a horse riding minigame."""
+  print(f"""You decide to warm up Comet with some practice jumps. Here's a quick test of your reflexes!
+
+You see a series of approaching jumps. Press 'space' to make Comet jump at the right moment. Try to get all jumps perfect!""")
+  perfect_jumps = 0
+  for i in range(NUM_JUMPS):
+    reaction_time = input("Jump! (Press space)")
+    if reaction_time.lower() == "space":
+      perfect_jumps += 1
+      print("Great jump, Maya! Comet is ready to soar!")
+    else:
+      print("Uh oh, a missed jump! Maybe some more practice is needed.")
+  if perfect_jumps == NUM_JUMPS:
+    print(f"Wow! You aced all {NUM_JUMPS} jumps! Comet is feeling confident.")
+  else:
+    print(f"You got {perfect_jumps} out of {NUM_JUMPS} jumps perfect. Keep practicing!")
+  return story()  # Continue the story
+
+
+def scout_course(course_length=COURSE_LENGTH):
+  """Presents a math challenge related to the obstacle course."""
+  print(f"""You decide to sneak a peek at the course. You see it's a winding path through the forest, about {course_length} meters long. There are also rumors of hidden shortcuts...""")
+  try:
+    distance_bonus = int(input("How many shortcuts can you find? Enter a number between 0 and 3: "))
+    if 0 <= distance_bonus <= 3:
+      total_distance = course_length - distance_bonus * SHORTCUT_REDUCTION
+      print(f"With {distance_bonus} shortcuts, the effective course length is about {total_distance} meters.")
+    else:
+      print("Seems like you couldn't find any shortcuts this time. But hey, maybe there's a surprise hidden somewhere!")
+  except ValueError:
+    print("Invalid input. Please enter a number between 0 and 3.")
+  return story(distance_bonus)  # Pass the number of shortcuts found
+
+
+def story(shortcuts=0):
+  """Continues the story based on the user's choice and performance."""
+  print("""It's time for the competition! You take a deep breath and mount Comet. As you head towards the starting line, you remember Grandpa's words: 'Trust your horse and stay focused.'
+
+The race begins! You and Comet navigate the course with ease. You use your knowledge of the course (if you scouted) to your advantage.
+
+**(Race scene can be further expanded here with additional challenges)**
+
+Finally, you cross the finish line! You and Comet did great!""")
+
+  # Add logic for different outcomes based on warm-up performance and shortcuts found
+  if shortcuts > 0:
+    print(f"The shortcuts you found helped you finish the race a bit faster! Great thinking, Maya!")
+  return
+
+
+# Start the game
+game_running = True
+while game_running:
+  choice = intro()
+  if choice == "warm_up":
+    warm_up()
+  elif choice == "scout_course":
+    scout_course()
+  else:
+    print("Oops! Something went wrong
+
